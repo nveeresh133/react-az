@@ -1,50 +1,61 @@
-// import logo from './logo.svg';
-// import './App.css';
+// src/App.js
+import React from 'react';
+import { withAITracking } from '@microsoft/applicationinsights-react-js';
+import { ReactPlugin } from '@microsoft/applicationinsights-react-js';
 
-// function App() {
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-//         <img src={logo} className="App-logo" alt="logo" />
-//         <p>
-//           Edit <code>src/App.js</code> and save to reload.
-//         </p>
-//         <a
-//           className="App-link"
-//           href="https://reactjs.org"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           Learn React
-//         </a>
-//       </header>
-//     </div>
-//   );
-// }
+// Define the App component
+class App extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            data: null,
+            error: null,
+            loading: false,
+        };
+        this.handleButtonClick = this.handleButtonClick.bind(this);
+    }
 
-// export default App;
+    async handleButtonClick() {
+        this.setState({ loading: true, error: null });
 
+        // Track the button click event
+        this.props.appInsights.trackEvent({ name: 'ButtonClick', properties: { action: 'FetchData' } });
 
-import React, { useEffect } from 'react';
-import { useAppInsightsContext, useTrackMetric } from '@microsoft/applicationinsights-react-js';
+        try {
+            // Simulate data fetching
+            await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulate network delay
+            const simulatedData = { message: 'Simulated data fetched successfully!' };
 
-function App() {
-  const appInsights = useAppInsightsContext();
-  const trackPageLoad = useTrackMetric(appInsights, "PageLoadTime");
+            this.setState({ data: simulatedData, error: null, loading: false });
 
-  useEffect(() => {
-    const start = performance.now();
-    window.onload = () => {
-      const loadTime = performance.now() - start;
-      trackPageLoad({ average: loadTime });
-    };
-  }, [trackPageLoad]);
+            // Track successful data fetch
+            this.props.appInsights.trackEvent({ name: 'DataFetchSuccess', properties: { status: 'success' } });
+        } catch (error) {
+            this.setState({ data: null, error: error.message, loading: false });
 
-  return (
-    <div className="App">
-      <h1>Welcome to the React Application</h1>
-    </div>
-  );
+            // Track failed data fetch
+            this.props.appInsights.trackEvent({ name: 'DataFetchFailure', properties: { status: 'failure', error: error.message } });
+        }
+    }
+
+    render() {
+        const { data, error, loading } = this.state;
+
+        return (
+            <div className="App">
+                <h1>Hello,  Welcome to the React World!</h1>
+                <button onClick={this.handleButtonClick} disabled={loading}>
+                    {loading ? 'Loading...' : 'Get Data'}
+                </button>
+                <div>
+                    {error && <p>Error: {error}</p>}
+                    {data && <pre>{JSON.stringify(data, null, 2)}</pre>}
+                </div>
+                {/* Your app components */}
+            </div>
+        );
+    }
 }
 
-export default App;
+// Export the App component with AI tracking
+export default withAITracking(ReactPlugin, App);
