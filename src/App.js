@@ -45,11 +45,11 @@ class App extends React.Component {
         return (
             <div className="App">
                 <h1>Hello, Welcome to the React World!</h1>
-                <button onClick={() => this.handleButtonClick('GetProductsOperation', 'https://fakestoreapi.com/docs')} disabled={loading}>
-                    {loading && buttonClicked === 'GetProductsOperation' ? 'Loading...' : 'docs'}
+                <button onClick={() => this.handleButtonClick('GetProductsOperation', 'https://jsonplaceholder.typicode.com/posts')} disabled={loading}>
+                    {loading && buttonClicked === 'GetProductsOperation' ? 'Loading...' : 'Fetch Posts'}
                 </button>
-                <button onClick={() => this.handleButtonClick('GetUsersOperation', 'https://fakestoreapi.com/donate')} disabled={loading}>
-                    {loading && buttonClicked === 'GetUsersOperation' ? 'Loading...' : 'donate'}
+                <button onClick={() => this.handleButtonClick('GetUsersOperation', 'https://jsonplaceholder.typicode.com/users')} disabled={loading}>
+                    {loading && buttonClicked === 'GetUsersOperation' ? 'Loading...' : 'Fetch Users'}
                 </button>
                 <div>
                     {error && <p>Error: {error}</p>}
@@ -61,5 +61,3 @@ class App extends React.Component {
 }
 
 export default withAITracking(ReactPlugin, App);
-
-
