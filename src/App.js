@@ -46,10 +46,10 @@ class App extends React.Component {
             <div className="App">
                 <h1>Hello, Welcome to the React World!</h1>
                 <button onClick={() => this.handleButtonClick('GetProductsOperation', 'https://fakestoreapi.com/docs')} disabled={loading}>
-                    {loading && buttonClicked === 'GetProductsOperation' ? 'Loading...' : 'Get Products'}
+                    {loading && buttonClicked === 'GetProductsOperation' ? 'Loading...' : 'docs'}
                 </button>
                 <button onClick={() => this.handleButtonClick('GetUsersOperation', 'https://fakestoreapi.com/donate')} disabled={loading}>
-                    {loading && buttonClicked === 'GetUsersOperation' ? 'Loading...' : 'Get Users'}
+                    {loading && buttonClicked === 'GetUsersOperation' ? 'Loading...' : 'donate'}
                 </button>
                 <div>
                     {error && <p>Error: {error}</p>}
