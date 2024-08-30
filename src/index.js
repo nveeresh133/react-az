@@ -4,18 +4,18 @@ import ReactDOM from 'react-dom/client';
 import { ApplicationInsights } from '@microsoft/applicationinsights-web';
 import { ReactPlugin } from '@microsoft/applicationinsights-react-js';
 import { createBrowserHistory } from 'history';
-// Import the Click Analytics plug-in
-import { ClickAnalyticsPlugin } from '@microsoft/applicationinsights-clickanalytics-js';
+// // Import the Click Analytics plug-in
+// import { ClickAnalyticsPlugin } from '@microsoft/applicationinsights-clickanalytics-js';
 
 const browserHistory = createBrowserHistory({ basename: '' });
 
 const reactPlugin = new ReactPlugin();
 
-// Instantiate the Click Analytics plug-in
-const clickPluginInstance = new ClickAnalyticsPlugin();
-const clickPluginConfig = {
-    autoCapture: true, // Enable auto-capture of click events
-};
+// // Instantiate the Click Analytics plug-in
+// const clickPluginInstance = new ClickAnalyticsPlugin();
+// const clickPluginConfig = {
+//     autoCapture: true, // Enable auto-capture of click events
+// };
 
 const appInsights = new ApplicationInsights({
     config: {
