@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@microsoft/applicationinsights-clickanalytics-js": "^3.3.1",
     "@microsoft/applicationinsights-react-js": "^17.3.1",
     "@microsoft/applicationinsights-web": "^3.3.1",
     "@testing-library/jest-dom": "^5.17.0",
