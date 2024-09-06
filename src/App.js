@@ -73,7 +73,7 @@ class App extends React.Component {
 
         return (
             <div className="App" style={styles.container}>
-                <h1 style={styles.header}>Hello, Welcome to the React World!</h1>
+                <h1 style={styles.header}>POC on DataLab Search Performance & Monitoring!</h1>
                 <button
                     style={styles.button}
                     onClick={() => this.handleButtonClick('GetProductsOperation', 'https://jsonplaceholder.typicode.com/posts', '/posts')}
