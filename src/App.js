@@ -103,17 +103,17 @@ class App extends React.Component {
                 <h1 style={styles.header}>POC on DataLab Search Performance & Monitoring!</h1>
                 <button
                     style={styles.button}
-                    onClick={() => this.handleButtonClick('DataPostsSearch', 'https://jsonplaceholder.typicode.com/posts', '/posts')}
+                    onClick={() => this.handleButtonClick('DatalabPostsSearch', 'https://jsonplaceholder.typicode.com/posts', 'datalabposts')}
                     disabled={loading}
                 >
-                    {loading && buttonClicked === 'DataPostsSearch' ? 'Loading...' : 'Fetch Posts'}
+                    {loading && buttonClicked === 'DatalabPostsSearch' ? 'Loading...' : 'Fetch Posts'}
                 </button>
                 <button
                     style={styles.button}
-                    onClick={() => this.handleButtonClick('DataUsersSearch', 'https://jsonplaceholder.typicode.com/users', '/users')}
+                    onClick={() => this.handleButtonClick('DatalabUsersSearch', 'https://jsonplaceholder.typicode.com/users', 'datalabusers')}
                     disabled={loading}
                 >
-                    {loading && buttonClicked === 'DataUsersSearch' ? 'Loading...' : 'Fetch Users'}
+                    {loading && buttonClicked === 'DatalabUsersSearch' ? 'Loading...' : 'Fetch Users'}
                 </button>
                 <div>
                     {data && <pre style={styles.data}>{JSON.stringify(data, null, 2)}</pre>}
