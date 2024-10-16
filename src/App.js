@@ -42,18 +42,45 @@ class App extends React.Component {
         this.setState({ loading: true, error: null, buttonClicked: operationName });
 
         window.history.pushState({}, '', urlPath);
+
+        // Start tracking the event with your custom operation name
         this.props.appInsights.startTrackEvent(operationName);
+
+        const start = performance.now(); // For tracking duration
 
         try {
             const response = await fetch(endpoint);
+            const duration = performance.now() - start;
+
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
+
             const data = await response.json();
+
+            // Track successful dependency (API call) with custom operation name
+            this.props.appInsights.trackDependency({
+                target: endpoint,
+                name: operationName,  // Custom operation name
+                duration: duration,   // Track how long it took
+                success: true,        // Mark it as successful
+                resultCode: response.status, // HTTP status code
+            });
 
             this.setState({ data, error: null, loading: false });
             this.props.appInsights.stopTrackEvent(operationName, { status: 'success' });
         } catch (error) {
+            const duration = performance.now() - start;
+
+            // Track failed dependency with custom operation name
+            this.props.appInsights.trackDependency({
+                target: endpoint,
+                name: operationName,  // Custom operation name
+                duration: duration,
+                success: false,        // Mark as failed
+                resultCode: 500,       // You can set a custom failure code here
+            });
+
             this.setState({ data: null, error: error.message, loading: false });
             this.props.appInsights.stopTrackEvent(operationName, { status: 'failure', error: error.message });
         }
@@ -76,17 +103,17 @@ class App extends React.Component {
                 <h1 style={styles.header}>POC on DataLab Search Performance & Monitoring!</h1>
                 <button
                     style={styles.button}
-                    onClick={() => this.handleButtonClick('GetProductsOperation', 'https://jsonplaceholder.typicode.com/posts', '/posts')}
+                    onClick={() => this.handleButtonClick('DatalabPostsSearch', 'https://jsonplaceholder.typicode.com/posts', '/posts')}
                     disabled={loading}
                 >
-                    {loading && buttonClicked === 'GetProductsOperation' ? 'Loading...' : 'Fetch Posts'}
+                    {loading && buttonClicked === 'DatalabPostsSearch' ? 'Loading...' : 'Fetch Posts'}
                 </button>
                 <button
                     style={styles.button}
-                    onClick={() => this.handleButtonClick('GetUsersOperation', 'https://jsonplaceholder.typicode.com/users', '/users')}
+                    onClick={() => this.handleButtonClick('DatalabUsersSearch', 'https://jsonplaceholder.typicode.com/users', '/users')}
                     disabled={loading}
                 >
-                    {loading && buttonClicked === 'GetUsersOperation' ? 'Loading...' : 'Fetch Users'}
+                    {loading && buttonClicked === 'DatalabUsersSearch' ? 'Loading...' : 'Fetch Users'}
                 </button>
                 <div>
                     {data && <pre style={styles.data}>{JSON.stringify(data, null, 2)}</pre>}
@@ -117,9 +144,6 @@ const styles = {
         borderRadius: '5px',
         cursor: 'pointer',
         fontSize: '16px',
-    },
-    buttonDisabled: {
-        backgroundColor: '#888',
     },
     data: {
         backgroundColor: '#fff',
