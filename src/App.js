@@ -59,12 +59,12 @@ class App extends React.Component {
             const data = await response.json();
 
             // Track successful dependency (API call) with custom operation name
-            this.props.appInsights.trackDependency({
+            this.props.appInsights.trackDependencyData({
                 target: endpoint,
                 name: operationName,  // Custom operation name
                 duration: duration,   // Track how long it took
                 success: true,        // Mark it as successful
-                resultCode: response.status, // HTTP status code
+                responseCode: response.status, // HTTP status code
             });
 
             this.setState({ data, error: null, loading: false });
@@ -73,12 +73,12 @@ class App extends React.Component {
             const duration = performance.now() - start;
 
             // Track failed dependency with custom operation name
-            this.props.appInsights.trackDependency({
+            this.props.appInsights.trackDependencyData({
                 target: endpoint,
                 name: operationName,  // Custom operation name
                 duration: duration,
                 success: false,        // Mark as failed
-                resultCode: 500,       // You can set a custom failure code here
+                responseCode: 500,       // You can set a custom failure code here
             });
 
             this.setState({ data: null, error: error.message, loading: false });
@@ -103,17 +103,17 @@ class App extends React.Component {
                 <h1 style={styles.header}>POC on DataLab Search Performance & Monitoring!</h1>
                 <button
                     style={styles.button}
-                    onClick={() => this.handleButtonClick('DatalabPostsSearch', 'https://jsonplaceholder.typicode.com/posts', '/posts')}
+                    onClick={() => this.handleButtonClick('DataPostsSearch', 'https://jsonplaceholder.typicode.com/posts', '/posts')}
                     disabled={loading}
                 >
-                    {loading && buttonClicked === 'DatalabPostsSearch' ? 'Loading...' : 'Fetch Posts'}
+                    {loading && buttonClicked === 'DataPostsSearch' ? 'Loading...' : 'Fetch Posts'}
                 </button>
                 <button
                     style={styles.button}
-                    onClick={() => this.handleButtonClick('DatalabUsersSearch', 'https://jsonplaceholder.typicode.com/users', '/users')}
+                    onClick={() => this.handleButtonClick('DataUsersSearch', 'https://jsonplaceholder.typicode.com/users', '/users')}
                     disabled={loading}
                 >
-                    {loading && buttonClicked === 'DatalabUsersSearch' ? 'Loading...' : 'Fetch Users'}
+                    {loading && buttonClicked === 'DataUsersSearch' ? 'Loading...' : 'Fetch Users'}
                 </button>
                 <div>
                     {data && <pre style={styles.data}>{JSON.stringify(data, null, 2)}</pre>}
